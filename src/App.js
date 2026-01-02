@@ -23,6 +23,7 @@ import TripSuggestions from './pages/TripSuggestions';
 // Meetup Pages
 import MeetupHome from './pages/meetup/MeetupHome';
 import CreateEvent from './pages/meetup/CreateEvent';
+import EventDetails from './pages/meetup/EventDetails';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -131,6 +132,7 @@ function App() {
               <Route path="/meetup" element={isAuthenticated ? <MeetupHome currentUser={currentUser} /> : <Navigate to="/login" />} />
               <Route path="/meetup/home" element={isAuthenticated ? <MeetupHome currentUser={currentUser} /> : <Navigate to="/login" />} />
               <Route path="/meetup/create" element={isAuthenticated ? <CreateEvent currentUser={currentUser} /> : <Navigate to="/login" />} />
+              <Route path="/meetup/event/:eventId" element={isAuthenticated ? <EventDetails currentUser={currentUser} /> : <Navigate to="/login" />} />
             </Routes>
           </>
         )}
