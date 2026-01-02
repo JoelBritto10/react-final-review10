@@ -38,6 +38,8 @@ function EventDetails({ currentUser }) {
     });
 
     return () => unsubscribe();
+    // loadEvent is defined inside the component and uses state setters from useState
+    // which are stable across renders, so it doesn't need to be in the dependency array
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [eventId, currentUser, navigate]);
 

@@ -43,7 +43,7 @@ class AIRecommendationEngine {
     const seasonalTrends = this.seasonalAnalyzer.analyzeTravelTrends(userTrips);
     const budgetAnalysis = this.budgetPredictor.predictUserBudget(userTrips);
     const travelFrequency = this.timeSeriesAnalyzer.analyzeTravelFrequency(userTrips);
-    // const anomalyAnalysis = this.anomalyDetector.detectAnomalies(userTrips);
+    // Anomaly detection is computed separately in getUserInsights method
 
     // Score all destinations with enhanced metrics
     const scoredDestinations = this.destinations.map(destination => {

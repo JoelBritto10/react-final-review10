@@ -50,6 +50,23 @@ What would you like to know about?`,
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const formatEventList = (events, includeDetails = 'full') => {
+    if (includeDetails === 'full') {
+      return events.map(e => 
+        `📅 **${e.title}**\n${new Date(e.date).toLocaleDateString()} at ${e.time}\n${e.price === 0 ? 'Free' : `$${e.price}`}`
+      ).join('\n\n');
+    } else if (includeDetails === 'minimal') {
+      return events.map(e => 
+        `📅 **${e.title}**\n${new Date(e.date).toLocaleDateString()} - ${e.category}`
+      ).join('\n\n');
+    } else {
+      // attending
+      return events.map(e => 
+        `📅 **${e.title}**\n${e.time} - ${e.location?.placeName || e.location?.address}`
+      ).join('\n\n');
+    }
+  };
+
   const generateBotResponse = (userMessage) => {
     const lowerMessage = userMessage.toLowerCase();
 
@@ -71,9 +88,7 @@ Just ask me anything about events!`;
     if (lowerMessage.includes('tech') || lowerMessage.includes('technology')) {
       const techEvents = events.filter(e => e.category === 'tech').slice(0, 3);
       if (techEvents.length > 0) {
-        return `I found ${techEvents.length} tech events for you:\n\n${techEvents.map(e => 
-          `📅 **${e.title}**\n${new Date(e.date).toLocaleDateString()} at ${e.time}\n${e.price === 0 ? 'Free' : `$${e.price}`}`
-        ).join('\n\n')}`;
+        return `I found ${techEvents.length} tech events for you:\n\n${formatEventList(techEvents, 'full')}`;
       }
       return "I couldn't find any tech events at the moment. Would you like to create one?";
     }
@@ -81,9 +96,7 @@ Just ask me anything about events!`;
     if (lowerMessage.includes('free')) {
       const freeEvents = events.filter(e => e.price === 0).slice(0, 3);
       if (freeEvents.length > 0) {
-        return `Here are ${freeEvents.length} free events:\n\n${freeEvents.map(e => 
-          `📅 **${e.title}**\n${new Date(e.date).toLocaleDateString()} - ${e.category}`
-        ).join('\n\n')}`;
+        return `Here are ${freeEvents.length} free events:\n\n${formatEventList(freeEvents, 'minimal')}`;
       }
       return "No free events found right now.";
     }
@@ -92,9 +105,7 @@ Just ask me anything about events!`;
       const today = new Date().toISOString().split('T')[0];
       const todayEvents = events.filter(e => e.date === today).slice(0, 3);
       if (todayEvents.length > 0) {
-        return `Events happening today:\n\n${todayEvents.map(e => 
-          `📅 **${e.title}**\n${e.time} - ${e.location?.placeName || e.location?.address}`
-        ).join('\n\n')}`;
+        return `Events happening today:\n\n${formatEventList(todayEvents, 'attending')}`;
       }
       return "No events scheduled for today. Check out tomorrow's events!";
     }
