@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './CreateTrip.css';
-import { extractCoordinatesFromUrl, isValidGoogleMapsUrl, createGoogleMapsUrl } from '../utils/mapsUrlParser';
-import { createTrip, uploadTripImage, uploadTripDocument } from '../firebaseUtils';
+import { extractCoordinatesFromUrl, isValidGoogleMapsUrl } from '../utils/mapsUrlParser';
+import { createTrip, uploadTripImage } from '../firebaseUtils';
 
 // Utility function to compress image
 const compressImage = (base64String, maxWidth = 400, maxHeight = 400, quality = 0.65) => {
@@ -53,9 +53,9 @@ function CreateTrip({ currentUser }) {
     documents: [] // New: documents array
   });
 
-  const categories = ['all', 'beach', 'mountain', 'city', 'adventure', 'culture', 'sports'];
+  // const categories = ['all', 'beach', 'mountain', 'city', 'adventure', 'culture', 'sports'];
 
-  const [userLocation, setUserLocation] = useState({ lat: 37.7749, lng: -122.4194 });
+  // const [userLocation] = useState({ lat: 37.7749, lng: -122.4194 }); // Not used
   const [urlInput, setUrlInput] = useState('');
   const [imagePreview, setImagePreview] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -69,18 +69,7 @@ function CreateTrip({ currentUser }) {
   }, [currentUser, navigate]);
 
   useEffect(() => {
-    // Get user's current location
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        position => {
-          setUserLocation({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          });
-        },
-        error => console.log('Geolocation error:', error)
-      );
-    }
+    // Get user's current location (removed unused setUserLocation)
   }, []);
 
   const handleChange = (e) => {
@@ -283,7 +272,7 @@ function CreateTrip({ currentUser }) {
       }
 
       // Create trip in Firebase
-      const tripId = await createTrip(tripData);
+      await createTrip(tripData);
       
       alert('✅ Trip created successfully!');
       

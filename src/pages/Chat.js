@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import './Chat.css';
 import { subscribeToTrips } from '../firebaseUtils';
 
 function Chat({ currentUser }) {
-  const navigate = useNavigate();
   const [messagesByTrip, setMessagesByTrip] = useState({});
-  const [userTrips, setUserTrips] = useState([]);
+  // const [userTrips, setUserTrips] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedTripId, setSelectedTripId] = useState(null);
   const [newMessage, setNewMessage] = useState('');
@@ -74,7 +72,7 @@ function Chat({ currentUser }) {
         return isParticipant || isHost;
       });
 
-      setUserTrips(myTrips);
+      // setUserTrips(myTrips); // Not used, commenting out
 
       // Load messages from localStorage (grouped by trip)
       const tripMessages = JSON.parse(localStorage.getItem('tripMessages')) || {};

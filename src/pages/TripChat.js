@@ -10,7 +10,7 @@ function TripChat({ currentUser }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isHost, setIsHost] = useState(false);
-  const [participants, setParticipants] = useState([]);
+  // const [participants, setParticipants] = useState([]); // Not used, uses trip.participants directly
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [formData, setFormData] = useState({
     rating: 5,
@@ -48,10 +48,10 @@ function TripChat({ currentUser }) {
     setTrip(currentTrip);
     setIsHost(isHostUser);
 
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    const tripParticipantIds = [currentTrip.hostId, ...(currentTrip.participants || [])];
-    const tripParticipants = users.filter(u => tripParticipantIds.includes(u.id));
-    setParticipants(tripParticipants);
+    // const users = JSON.parse(localStorage.getItem('users')) || [];
+    // const tripParticipantIds = [currentTrip.hostId, ...(currentTrip.participants || [])];
+    // const tripParticipants = users.filter(u => tripParticipantIds.includes(u.id));
+    // setParticipants(tripParticipants); // Not used, commented out
 
     // Load reviews for this trip
     const allReviews = JSON.parse(localStorage.getItem('tripReviews')) || {};
@@ -143,8 +143,7 @@ function TripChat({ currentUser }) {
     else if (formData.rating === 2) karmaPoints = 0;
     else if (formData.rating === 1) karmaPoints = -1;
 
-    // Bonus/Penalty based on sentiment
-    const sentimentDifference = sentiment.positiveCount - sentiment.negativeCount;
+    // Bonus/Penalty based on sentiment (unused variable removed)
     
     if (formData.rating >= 4) {
       // For positive ratings: bonus for positive sentiment

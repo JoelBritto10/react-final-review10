@@ -82,9 +82,11 @@ export const extractPlaceName = (url) => {
   }
 };
 
-export default {
+const mapsUrlParser = {
   extractCoordinatesFromUrl,
   isValidGoogleMapsUrl,
   createGoogleMapsUrl,
   extractPlaceName
 };
+
+export default mapsUrlParser;

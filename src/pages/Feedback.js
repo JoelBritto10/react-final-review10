@@ -16,7 +16,7 @@ function Feedback({ currentUser }) {
     ratingDistribution: { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 }
   });
   const [loading, setLoading] = useState(true);
-  const [selectedTrip, setSelectedTrip] = useState(null);
+  // const [selectedTrip, setSelectedTrip] = useState(null); // Not used
   const [filterRating, setFilterRating] = useState('all');
 
   useEffect(() => {
@@ -483,7 +483,7 @@ function Feedback({ currentUser }) {
                     {activeTab === 'given' && (
                       <button
                         className="btn-edit-review"
-                        onClick={() => setSelectedTrip(review.tripId)}
+                        onClick={() => {/* View trip functionality */}}
                       >
                         View Trip →
                       </button>

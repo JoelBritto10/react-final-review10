@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { uploadUserImage, updateUserProfile, subscribeToTrips } from '../firebaseUtils';
+import { subscribeToTrips } from '../firebaseUtils';
 import './Profile.css';
 
 // Utility function to compress image

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './Karma.css';
 import { subscribeToTrips } from '../firebaseUtils';
 
@@ -44,7 +44,7 @@ function Karma({ currentUser }) {
   };
 
   // Function to calculate karma points based on rating and sentiment
-  const calculateKarmaFromReview = (rating, title, comment) => {
+  const calculateKarmaFromReview = useCallback((rating, title, comment) => {
     let karmaPoints = 0;
     const sentiment = analyzeSentiment(title + ' ' + comment);
     
@@ -73,10 +73,10 @@ function Karma({ currentUser }) {
     }
 
     return karmaPoints;
-  };
+  }, []);
 
   // Function to calculate total karma from all reviews for a user
-  const calculateTotalKarmaFromReviews = (trips) => {
+  const calculateTotalKarmaFromReviews = useCallback((trips) => {
     const tripReviews = JSON.parse(localStorage.getItem('tripReviews')) || {};
     const users = JSON.parse(localStorage.getItem('users')) || [];
     const breakdown = {};
@@ -133,7 +133,7 @@ function Karma({ currentUser }) {
 
     localStorage.setItem('users', JSON.stringify(updatedUsers));
     setUserKarmaBreakdown(breakdown);
-  };
+  }, [calculateKarmaFromReview]);
 
   // Subscribe to Firebase trips in real-time
   useEffect(() => {
@@ -144,7 +144,7 @@ function Karma({ currentUser }) {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [calculateTotalKarmaFromReviews]);
 
   useEffect(() => {
     // Calculate karma from reviews and get updated user list
@@ -156,7 +156,7 @@ function Karma({ currentUser }) {
       const sorted = storedUsers.sort((a, b) => (b.karma || 0) - (a.karma || 0));
       setUsers(sorted);
     }, 100);
-  }, [refreshTrigger, currentUser?.id, firebaseTrips]);
+  }, [refreshTrigger, currentUser?.id, firebaseTrips, calculateTotalKarmaFromReviews]);
 
   // Auto-refresh leaderboard every 5 seconds to show latest karma updates
   useEffect(() => {

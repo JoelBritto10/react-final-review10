@@ -13,7 +13,7 @@ function TripExplore({ currentUser }) {
   const [activeTab, setActiveTab] = useState('search'); // 'search' or 'map'
   const [userLocation, setUserLocation] = useState(null);
   const [locationError, setLocationError] = useState(null);
-  const [availableCategories, setAvailableCategories] = useState([]); // New: track unique categories
+  // const [availableCategories, setAvailableCategories] = useState([]); // Not used
 
   // Get user's real-time location
   useEffect(() => {
@@ -46,9 +46,9 @@ function TripExplore({ currentUser }) {
       setFilteredTrips(firebaseTrips);
       
       // Extract unique categories from trips
-      const uniqueCategories = [...new Set(firebaseTrips.map(trip => trip.category).filter(cat => cat && cat !== 'all'))];
-      const categories = ['all', ...uniqueCategories.sort()];
-      setAvailableCategories(categories);
+      // const uniqueCategories = [...new Set(firebaseTrips.map(trip => trip.category).filter(cat => cat && cat !== 'all'))];
+      // const categories = ['all', ...uniqueCategories.sort()];
+      // setAvailableCategories(categories); // Not used, commented out
       
       setLoading(false);
     });
